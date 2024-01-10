@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.nirmal.blog.entity.Category;
@@ -77,9 +78,21 @@ public class PostServiceImpl implements PostService {
 		this.postRepo.deleteById(postId);
 	}
 	@Override
-	public PostResponse getAllPost(Integer pageNumber,Integer pageSize,String sortBy) {
+	public PostResponse getAllPost(Integer pageNumber,Integer pageSize,String sortBy,String sortDirection) {
 		
-		Pageable page = PageRequest.of(pageNumber, pageSize);
+		Sort sort = null;
+				if(sortDirection.equalsIgnoreCase("asc"))
+				{
+					sort = Sort.by(sortBy).ascending();
+				}
+				else
+				{
+					sort = Sort.by(sortBy).descending();
+				}
+		
+		
+		// pageable object jere we can sort by acending or decending order
+		Pageable page = PageRequest.of(pageNumber, pageSize, sort);
 		
 		 Page<Post> pagePost = this.postRepo.findAll(page);
 		 
@@ -132,9 +145,10 @@ public class PostServiceImpl implements PostService {
 		return postDtos;
 	}
 	@Override
-	public List<Post> searchPosts(String Keyword) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> searchPosts(String Keyword) {
+		List<Post> posts = this.postRepo.findByTitleContaining(Keyword);
+		List<PostDto> postDtos = posts.stream().map((post)-> this.modelMapper.map(post,PostDto.class)).collect(Collectors.toList());
+		return postDtos;
 	}
 	
 

@@ -11,4 +11,7 @@ import com.nirmal.blog.entity.User;
 public interface PostRepo extends JpaRepository<Post, Integer> {
 	List<Post> findByUser(User user);
 	List<Post> findBycategory(Category category);	
+	
+	List<Post> findByTitleContaining(String title);
+
 }
