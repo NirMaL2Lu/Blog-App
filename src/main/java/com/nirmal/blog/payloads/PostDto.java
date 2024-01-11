@@ -1,10 +1,11 @@
 package com.nirmal.blog.payloads;
 
 import java.util.Date;
-
-
+import java.util.HashSet;
+import java.util.Set;
 
 import com.nirmal.blog.entity.Category;
+import com.nirmal.blog.entity.Comments;
 import com.nirmal.blog.entity.User;
 
 import lombok.Getter;
@@ -29,5 +30,7 @@ public class PostDto {
 	private CategoryDto category;
 	
 	private UserDto user;
+	
+	private Set<CommentsDto> comments = new HashSet<>();
 
 }
