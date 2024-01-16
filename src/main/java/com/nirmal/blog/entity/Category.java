@@ -23,7 +23,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Category {
 
 	@Id
@@ -33,6 +32,6 @@ public class Category {
 	private String categoryTitle;
 	@Column(name = "description")
 	private String categoryDescription;
-	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<Post> posts = new ArrayList<>();
 }
